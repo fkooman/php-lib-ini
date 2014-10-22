@@ -1,0 +1,20 @@
+{
+    "authors": [
+        {
+            "email": "fkooman@tuxed.net",
+            "name": "Fran\u00e7ois Kooman",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "fkooman\\Ini": "src/"
+        }
+    },
+    "description": "Handle INI configuration files",
+    "license": "Apache-2.0",
+    "name": "fkooman/ini",
+    "require": {
+        "php": ">=5.4"
+    }
+}
