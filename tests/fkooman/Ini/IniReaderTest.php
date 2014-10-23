@@ -25,19 +25,19 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testRootLevel()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals('bar', $reader->v(array('foo')));
+        $this->assertEquals('bar', $reader->v('foo'));
     }
 
     public function testSubLevel()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals('abc', $reader->v(array('one', 'xyz')));
+        $this->assertEquals('abc', $reader->v('one', 'xyz'));
     }
 
     public function testSubLevelArray()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals(array('one', 'two', 'three'), $reader->v(array('two', 'list')));
+        $this->assertEquals(array('one', 'two', 'three'), $reader->v('two', 'list'));
     }
 
     /**
@@ -47,19 +47,19 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testMissingValueRequired()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals('foo', $reader->v(array('one', 'two', 'three')));
+        $this->assertEquals('foo', $reader->v('one', 'two', 'three'));
     }
 
     public function testMissingValueNotRequiredNullDefault()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertNull($reader->v(array('one', 'two', 'three', false)));
+        $this->assertNull($reader->v('one', 'two', 'three', false));
     }
 
     public function testMissingValueNotRequiredWithDefault()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals('foobar', $reader->v(array('one', 'two', 'three', false, 'foobar')));
+        $this->assertEquals('foobar', $reader->v('one', 'two', 'three', false, 'foobar'));
     }
 
     /**
@@ -69,25 +69,25 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testDeeperLevelNotExisting()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $reader->v(array('foo', 'bar'));
+        $reader->v('foo', 'bar');
     }
 
     public function testDeeperLevelNotExistingWithDefaultValue()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals('xyz', $reader->v(array('foo', 'bar', false, 'xyz')));
+        $this->assertEquals('xyz', $reader->v('foo', 'bar', false, 'xyz'));
     }
 
     public function testKeyedSection()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals(array('xyz' => 'abc'), $reader->v(array('one')));
+        $this->assertEquals(array('xyz' => 'abc'), $reader->v('one'));
     }
 
     public function testExplicitRequired()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals('abc', $reader->v(array('one', 'xyz', true)));
+        $this->assertEquals('abc', $reader->v('one', 'xyz', true));
     }
 
     /**
@@ -97,7 +97,7 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testExplicitRequiredMissing()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals('foo', $reader->v(array('one', 'two', 'three', true)));
+        $this->assertEquals('foo', $reader->v('one', 'two', 'three', true));
     }
 
     /**
@@ -107,7 +107,7 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testExplicitRequiredMissingWithDefaultValue()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $this->assertEquals('foo', $reader->v(array('one', 'two', 'three', true, 'useless')));
+        $this->assertEquals('foo', $reader->v('one', 'two', 'three', true, 'useless'));
     }
 
     /**
@@ -117,7 +117,7 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testNoParameters()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $reader->v(array());
+        $reader->v();
     }
 
     /**
@@ -127,7 +127,7 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testNoParametersOnlyBool()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $reader->v(array(true));
+        $reader->v(true);
     }
 
     /**
@@ -137,7 +137,7 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testNonStringParameter()
     {
         $reader = IniReader::fromFile('tests/data/simple.ini');
-        $reader->v(array('one', 'two', 5, false, 'foobar'));
+        $reader->v('one', 'two', 5, false, 'foobar');
     }
 
     /**

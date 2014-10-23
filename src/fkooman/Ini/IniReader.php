@@ -45,8 +45,9 @@ class IniReader
         return new static($configData);
     }
 
-    public function v(array $p)
+    public function v()
     {
+        $p = func_get_args();
         $required = true;
         $default = null;
         $maxCount = count($p);
@@ -91,7 +92,7 @@ class IniReader
             }
             // exists
             // if last, return it (could be array or string!
-            if ($i === $maxCount - 1) {
+            if ($maxCount - 1 === $i) {
                 return $configPointer[$p[$i]];
             }
             if (!is_array($configPointer[$p[$i]])) {

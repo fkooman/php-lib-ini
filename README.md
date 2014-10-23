@@ -10,7 +10,7 @@ You can include the library using composer by requiring `fkooman/ini` in your
 # API
 You can initialize the `IniReader` object like this:
 
-    $iniReader = new IniReader::fromFile("config.ini");
+    $iniReader = new IniReader::fromFile('config.ini');
 
 # Examples
 Imagine the following INI file:
@@ -29,16 +29,16 @@ Imagine the following INI file:
 
 The following calls will provide the results mentioned in the comment:
 
-    $iniReader->v(['foo'])         // returns 'bar'
-    $iniReader->v(['one', 'xyz'])  // returns 'abc'
-    $iniReader->v(['two', 'list']) // returns array('one', 'two', 'three')
+    $iniReader->v('foo')         // returns 'bar'
+    $iniReader->v('one', 'xyz')  // returns 'abc'
+    $iniReader->v('two', 'list') // returns array('one', 'two', 'three')
 
 The second last and last parameter can be used to specify whether or not the
 config value is required, and if not what the default value is. By default
 the key must exist otherwise the `RuntimeException` is thrown.
 
-    $iniReader->v(['def', false])                      // returns null
-    $iniReader->v(['abc', 'def', 'ghi', false, 'foo']) // returns 'foo'
+    $iniReader->v('def', false)                      // returns null
+    $iniReader->v('abc', 'def', 'ghi', false, 'foo') // returns 'foo'
     
 # License
 Licensed under the Apache License, Version 2.0;

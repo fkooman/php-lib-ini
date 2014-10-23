@@ -5,7 +5,7 @@
 %global github_name      php-lib-ini
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    0.1.0
+Version:    0.2.0
 Release:    1%{?dist}
 Summary:    Handle INI configuration files
 
@@ -17,10 +17,10 @@ BuildArch:  noarch
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
-Requires:   php >= 5.4
+Requires:   php >= 5.3.3
 
 %description
-Simple library for reading INI-style configuration files
+Simple library for reading INI-style configuration files.
 
 %prep
 %setup -qn %{github_name}-%{version}
@@ -38,5 +38,8 @@ cp -pr src/* ${RPM_BUILD_ROOT}%{_datadir}/php
 %doc README.md CHANGES.md COPYING composer.json
 
 %changelog
+* Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.2.0-1
+- update to 0.2.0
+
 * Wed Oct 22 2014 François Kooman <fkooman@tuxed.net> - 0.1.0-1
 - initial package
