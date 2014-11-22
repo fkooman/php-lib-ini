@@ -10,7 +10,7 @@ You can include the library using composer by requiring `fkooman/ini` in your
 # API
 You can initialize the `IniReader` object like this:
 
-    $iniReader = new IniReader::fromFile('config.ini');
+    $iniReader = IniReader::fromFile('config.ini');
 
 # Examples
 Imagine the following INI file:
