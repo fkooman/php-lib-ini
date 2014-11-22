@@ -56,7 +56,7 @@ class IniReader
             throw new InvalidArgumentException('no configuration field requested');
         }
 
-        // find the max depth count, the (optional) required bool and (optiona)
+        // find the max depth count, the (optional) required bool and (optional)
         // default value
         for ($i = 0; $i < count($p); $i++) {
             if (is_bool($p[$i])) {
