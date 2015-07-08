@@ -17,7 +17,8 @@ BuildArch:  noarch
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
-Requires:   php >= 5.3.3
+Requires:   php(language) >= 5.3.3
+Requires:   php-spl
 
 %description
 Simple library for reading INI-style configuration files.
@@ -35,7 +36,8 @@ cp -pr src/* ${RPM_BUILD_ROOT}%{_datadir}/php
 %defattr(-,root,root,-)
 %dir %{_datadir}/php/%{composer_vendor}/Ini
 %{_datadir}/php/%{composer_vendor}/Ini/*
-%doc README.md CHANGES.md COPYING composer.json
+%doc README.md CHANGES.md composer.json
+%license COPYING
 
 %changelog
 * Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.2.0-1

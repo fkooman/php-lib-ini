@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/fkooman/php-lib-ini.svg?branch=master)](https://travis-ci.org/fkooman/php-lib-ini)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fkooman/php-lib-ini/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fkooman/php-lib-ini/?branch=master)
 
 # Introduction
 Simple library for reading INI-style configuration files.

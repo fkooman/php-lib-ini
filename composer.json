@@ -8,13 +8,14 @@
     ],
     "autoload": {
         "psr-0": {
-            "fkooman\\Ini": "src/"
+            "fkooman\\Ini\\": "src/"
         }
     },
     "description": "Handle INI configuration files",
     "license": "Apache-2.0",
     "name": "fkooman/ini",
     "require": {
+	"ext-spl": "*",
         "php": ">=5.3.3"
     }
 }
