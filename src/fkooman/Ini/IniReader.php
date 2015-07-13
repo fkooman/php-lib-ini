@@ -45,65 +45,100 @@ class IniReader
         return new static($configData);
     }
 
+    public static function isRequired(array $argv)
+    {
+        foreach ($argv as $arg) {
+            if (is_string($arg)) {
+                continue;
+            } elseif (is_bool($arg)) {
+                return $arg;
+            } else {
+                throw new InvalidArgumentException('invalid argument type');
+            }
+        }
+
+        return true;
+    }
+
+    public static function defaultValue(array $argv)
+    {
+        $argc = count($argv);
+        for ($i = 1; $i < $argc; ++$i) {
+            if (false === $argv[$i]) {
+                // return next as default value
+                if (array_key_exists($i + 1, $argv)) {
+                    return $argv[$i + 1];
+                }
+
+                return;
+            }
+        }
+    }
+
+    public static function configValues(array $argv)
+    {
+        $configValues = array();
+        foreach ($argv as $arg) {
+            if (!is_string($arg)) {
+                break;
+            }
+            $configValues[] = $arg;
+        }
+
+        return $configValues;
+    }
+
+    private static function configExists(array $configPointer, array $argv)
+    {
+        foreach ($argv as $arg) {
+            if (!is_array($configPointer)) {
+                return false;
+            }
+            if (!array_key_exists($arg, $configPointer)) {
+                return false;
+            }
+            $configPointer = $configPointer[$arg];
+        }
+
+        return true;
+    }
+
+    private static function getValue(array $configPointer, array $argv)
+    {
+        foreach ($argv as $arg) {
+            $configPointer = $configPointer[$arg];
+        }
+
+        return $configPointer;
+    }
+
     public function v()
     {
-        $p = func_get_args();
-        $required = true;
-        $default = null;
-        $maxCount = count($p);
+        $argv = func_get_args();
+        $argc = count($argv);
 
-        if (0 === $maxCount) {
+        // need at least one parameter
+        if (0 === $argc) {
             throw new InvalidArgumentException('no configuration field requested');
         }
 
-        // find the max depth count, the (optional) required bool and (optional)
-        // default value
-        for ($i = 0; $i < count($p); ++$i) {
-            if (is_bool($p[$i])) {
-                if (0 === $i) {
-                    throw new InvalidArgumentException('no configuration field requested');
-                }
-                $maxCount = $i;
-                $required = $p[$i];
-                if ($i < count($p) - 1) {
-                    $default = $p[$i + 1];
-                }
-                // we are done, ignore the other parameters
-                break;
-            } else {
-                if (!is_string($p[$i])) {
-                    throw new InvalidArgumentException('only strings can be used as configuration keys');
-                }
-            }
+        // first parameter must be string
+        if (!is_string($argv[0])) {
+            throw new InvalidArgumentException('first argument must be string');
         }
 
-        // start at the root of the config
-        $configPointer = $this->config;
-
-        // traverse the array until the config value was found
-        for ($i = 0; $i < $maxCount; ++$i) {
-            if (!array_key_exists($p[$i], $configPointer)) {
-                // does not exist
-                if ($required) {
-                    throw new RuntimeException('configuration value not found');
-                }
-
-                return $default;
-            }
-            // exists
-            // if last, return it (could be array or string!
-            if ($maxCount - 1 === $i) {
-                return $configPointer[$p[$i]];
-            }
-            if (!is_array($configPointer[$p[$i]])) {
-                // unable to go deeper, does not exist
-                if ($required) {
-                    throw new RuntimeException('configuration value not found');
-                }
-
-                return $default;
-            }
-            $configPointer = $configPointer[$p[$i]];
+        // if config key exists, return its value
+        $configValues = self::configValues($argv);
+        if (self::configExists($this->config, $configValues)) {
+            return self::getValue($this->config, $configValues);
         }
+
+        // if it is required and not available throw error
+        if (self::isRequired($argv)) {
+            throw new RuntimeException('configuration value not found');
+        }
+
+        // return the default value
+        return self::defaultValue($argv);
     }
 }

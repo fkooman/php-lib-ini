@@ -5,7 +5,7 @@
 %global github_name      php-lib-ini
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    0.2.0
+Version:    1.0.0
 Release:    1%{?dist}
 Summary:    Handle INI configuration files
 
@@ -19,6 +19,7 @@ Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 Requires:   php(language) >= 5.3.3
 Requires:   php-spl
+Requires:   php-standard
 
 %description
 Simple library for reading INI-style configuration files.
@@ -40,6 +41,9 @@ cp -pr src/* ${RPM_BUILD_ROOT}%{_datadir}/php
 %license COPYING
 
 %changelog
+* Mon Jul 13 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-1
+- update to 1.0.0
+
 * Thu Oct 23 2014 François Kooman <fkooman@tuxed.net> - 0.2.0-1
 - update to 0.2.0
 

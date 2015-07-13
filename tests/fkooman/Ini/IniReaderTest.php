@@ -122,7 +122,7 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage no configuration field requested
+     * @expectedExceptionMessage first argument must be string
      */
     public function testNoParametersOnlyBool()
     {
@@ -132,7 +132,7 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage only strings can be used as configuration keys
+     * @expectedExceptionMessage invalid argument type
      */
     public function testNonStringParameter()
     {
@@ -156,5 +156,27 @@ class IniReaderTest extends PHPUnit_Framework_TestCase
     public function testBrokenIniFile()
     {
         $c = IniReader::fromFile('tests/data/raw.dat');
+    }
+
+    public function testDefaultValue()
+    {
+        $this->assertSame('xyz', IniReader::defaultValue(array('foo', 'bar', false, 'xyz')));
+        $this->assertSame(5, IniReader::defaultValue(array('foo', 'bar', false, 5)));
+    }
+
+    public function testIsRequired()
+    {
+        $this->assertTrue(IniReader::isRequired(array('foo')));
+        $this->assertTrue(IniReader::isRequired(array('foo', true)));
+        $this->assertTrue(IniReader::isRequired(array('foo', 'bar')));
+        $this->assertFalse(IniReader::isRequired(array('foo', false)));
+        $this->assertFalse(IniReader::isRequired(array('foo', false, 'def')));
+    }
+
+    public function testConfigValues()
+    {
+        $this->assertSame(array('foo'), IniReader::configValues(array('foo', false, 'bar')));
+        $this->assertSame(array('foo'), IniReader::configValues(array('foo')));
+        $this->assertSame(array('foo'), IniReader::configValues(array('foo', true)));
     }
 }
