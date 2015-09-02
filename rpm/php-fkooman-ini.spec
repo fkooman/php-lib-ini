@@ -42,7 +42,7 @@ mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/php
 cp -pr src/* ${RPM_BUILD_ROOT}%{_datadir}/php
 
 %check
-phpab --output tests/bootstrap.php tests
+%{_bindir}/phpab --output tests/bootstrap.php tests
 echo 'require "%{buildroot}%{_datadir}/php/%{composer_vendor}/Ini/autoload.php";' >> tests/bootstrap.php
 %{_bindir}/phpunit \
     --bootstrap tests/bootstrap.php
